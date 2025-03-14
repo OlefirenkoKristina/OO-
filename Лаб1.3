@@ -1,0 +1,30 @@
+using System;
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Введiть кiлькiсть елементiв масиву:");
+        int x = int.Parse(Console.ReadLine());
+        int[] n = new int[x];
+        Console.WriteLine("Введiть елементи масиву:");
+        for (int i = 0; i < x; i++)
+        {
+            Console.Write($"Елемент {i + 1}: ");
+            n[i] = int.Parse(Console.ReadLine());
+        }
+        int m = FindMinimum(n);
+        Console.WriteLine("Мiнiмальний елемент: " + m);
+    }
+    static int FindMinimum(int[] array)
+    {
+        int m = array[0]; 
+        foreach (int n in array)
+        {
+            if (n < m)
+            {
+                m = n;
+            }
+        }
+        return m;
+    }
+}
