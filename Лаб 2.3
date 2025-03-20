@@ -1,0 +1,33 @@
+using System;
+
+class BankAccount
+{
+    private string AccountNumber;
+    private double Balance;
+
+    public BankAccount(string accountNumber, double initialBalance)
+    {
+        AccountNumber = accountNumber;
+        Balance = initialBalance;
+    }
+
+    public string GetAccountNumber()
+    {
+        return AccountNumber;
+    }
+
+    public double GetBalance()
+    {
+        return Balance;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        BankAccount account = new BankAccount("123456789", 100000);
+        Console.WriteLine("Account Number: " + account.GetAccountNumber());
+        Console.WriteLine("Balance: " + account.GetBalance());
+    }
+}
