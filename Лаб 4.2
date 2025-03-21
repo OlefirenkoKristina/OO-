@@ -1,0 +1,92 @@
+using System;
+using System.Collections.Generic;
+
+abstract class TQuadrangle
+{
+    public abstract double Area();
+    public abstract double Perimeter();
+}
+
+class Rectangle : TQuadrangle
+{
+    protected double length;
+    protected double width;
+
+    public Rectangle(double length, double width)
+    {
+        this.length = length;
+        this.width = width;
+    }
+
+    public override double Area() => length * width;
+    public override double Perimeter() => 2 * (length + width);
+}
+
+class Square : Rectangle
+{
+    public Square(double side) : base(side, side) { }
+}
+
+class Parallelogram : TQuadrangle
+{
+    private double baseLength;
+    private double height;
+    private double side;
+
+    public Parallelogram(double baseLength, double height, double side)
+    {
+        this.baseLength = baseLength;
+        this.height = height;
+        this.side = side;
+    }
+
+    public override double Area() => baseLength * height;
+    public override double Perimeter() => 2 * (baseLength + side);
+}
+
+class Program
+{
+    static void Main()
+    {
+        Random random = new Random();
+        int n = 10;
+        List<TQuadrangle> quadrangles = new List<TQuadrangle>();
+
+        int rectanglesCount = random.Next(1, n - 1);
+        int squaresCount = random.Next(1, n - rectanglesCount);
+        int parallelogramsCount = n - rectanglesCount - squaresCount;
+
+        for (int i = 0; i < rectanglesCount; i++)
+        {
+            quadrangles.Add(new Rectangle(random.Next(1, 11), random.Next(1, 11)));
+        }
+
+        for (int i = 0; i < squaresCount; i++)
+        {
+            quadrangles.Add(new Square(random.Next(1, 11)));
+        }
+
+        for (int i = 0; i < parallelogramsCount; i++)
+        {
+            quadrangles.Add(new Parallelogram(random.Next(1, 11), random.Next(1, 11), random.Next(1, 11)));
+        }
+
+        double sumArea = 0;
+        double sumPerimeter = 0;
+
+        foreach (var quad in quadrangles)
+        {
+            if (quad is Rectangle || quad is Square)
+            {
+                sumArea += quad.Area();
+            }
+            else if (quad is Parallelogram)
+            {
+                sumPerimeter += quad.Perimeter();
+            }
+        }
+
+        Console.WriteLine($"Сума площ прямокутникiв та квадратiв: {sumArea}");
+        Console.WriteLine($"Сума периметрiв паралелограмiв: {sumPerimeter}");
+    }
+}
