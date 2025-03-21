@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+
+class Planet
+{
+    public string Name;
+    public List<Continent> Continents;
+    public List<Ocean> Oceans;
+    public List<Island> Islands;
+
+    public Planet(string name)
+    {
+        Name = name;
+        Continents = new List<Continent>();
+        Oceans = new List<Ocean>();
+        Islands = new List<Island>();
+    }
+
+    public void PrintInfo()
+    {
+        Console.WriteLine($"Планета: {Name}");
+        Console.WriteLine($"Кiлькiсть материкiв: {Continents.Count}");
+        foreach (var continent in Continents)
+        {
+            Console.WriteLine($"Материк: {continent.Name}");
+        }
+    }
+
+    public override string ToString() => $"Планета {Name} має {Continents.Count} материків, {Oceans.Count} океанів і {Islands.Count} островів.";
+    public override bool Equals(object obj) => obj is Planet planet && Name == planet.Name;
+    public override int GetHashCode() => Name.GetHashCode();
+}
+
+class Continent
+{
+    public string Name;
+
+    public Continent(string name)
+    {
+        Name = name;
+    }
+
+    public override string ToString() => $"Материк {Name}";
+    public override bool Equals(object obj) => obj is Continent continent && Name == continent.Name;
+    public override int GetHashCode() => Name.GetHashCode();
+}
+
+class Ocean
+{
+    public string Name;
+
+    public Ocean(string name)
+    {
+        Name = name;
+    }
+
+    public override string ToString() => $"Океан {Name}";
+    public override bool Equals(object obj) => obj is Ocean ocean && Name == ocean.Name;
+    public override int GetHashCode() => Name.GetHashCode();
+}
+
+class Island
+{
+    public string Name;
+
+    public Island(string name)
+    {
+        Name = name;
+    }
+
+    public override string ToString() => $"Острiв {Name}";
+    public override bool Equals(object obj) => obj is Island island && Name == island.Name;
+    public override int GetHashCode() => Name.GetHashCode();
+}
+
+class Program
+{
+    static void Main()
+    {
+        Planet earth = new Planet("Земля");
+        earth.Continents.Add(new Continent("Євразiя"));
+        earth.Continents.Add(new Continent("Африка"));
+        earth.Continents.Add(new Continent("Пiвнiчна Америка"));
+        earth.Continents.Add(new Continent("Пiвденна Америка"));
+        earth.Continents.Add(new Continent("Антарктида"));
+        earth.Continents.Add(new Continent("Австралiя"));
+
+        earth.Oceans.Add(new Ocean("Тихий океан"));
+        earth.Oceans.Add(new Ocean("Атлантичний океан"));
+        earth.Oceans.Add(new Ocean("Індійський океан"));
+        earth.Oceans.Add(new Ocean("Північний Льодовитий океан"));
+
+        earth.Islands.Add(new Island("Гренландія"));
+        earth.Islands.Add(new Island("Мадагаскар"));
+        earth.Islands.Add(new Island("Велика Британія"));
+
+        earth.PrintInfo();
+    }
+}
