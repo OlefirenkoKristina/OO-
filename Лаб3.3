@@ -1,0 +1,33 @@
+using System;
+
+class MathOperations
+{
+    private static int operationCount = 0;
+
+    public static int D(int a, int b)
+    {
+        operationCount++;
+        return a + b;
+    }
+
+    public static int V(int a, int b)
+    {
+        operationCount++;
+        return a - b;
+    }
+
+    public static int O()
+    {
+        return operationCount;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Додавання: " + MathOperations.D(5, 3));
+        Console.WriteLine("Вiднiмання: " + MathOperations.V(10, 4));
+        Console.WriteLine("Кiлькiсть операцiй: " + MathOperations.O());
+    }
+}
