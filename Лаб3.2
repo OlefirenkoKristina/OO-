@@ -1,0 +1,29 @@
+using System;
+
+struct Point
+{
+    private readonly int x;
+    private readonly int y;
+    private readonly int z;
+
+    public Point(int x, int y, int z)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    public void Display()
+    {
+        Console.WriteLine($"Точка: X={x}, Y={y}, Z={z}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Point p = new Point(3, 4, 5);
+        p.Display();
+    }
+}
