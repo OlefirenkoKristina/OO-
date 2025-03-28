@@ -1,0 +1,111 @@
+using System;
+
+enum Size { XXS, XS, S, M, L }
+
+interface IMensWear
+{
+    void DressMan();
+}
+
+interface IWomensWear
+{
+    void DressWoman();
+}
+
+abstract class Clothing
+{
+    public Size Size { get; set; }
+    public double Price { get; set; }
+    public string Color { get; set; }
+
+    protected Clothing(Size size, double price, string color)
+    {
+        Size = size;
+        Price = price;
+        Color = color;
+    }
+}
+
+class Shop
+{
+    public Size[] Sizes = { Size.XXS, Size.XS, Size.S, Size.M, Size.L };
+    public int EuroSize { get; set; }
+
+    public Shop(int euroSize)
+    {
+        EuroSize = euroSize;
+    }
+
+    public virtual string GetDescription() => "Дорослий розмiр";
+}
+
+class TShirt : Clothing, IMensWear, IWomensWear
+{
+    public TShirt(Size size, double price, string color) : base(size, price, color) { }
+
+    public void DressMan() => Console.WriteLine($"Чоловiча футболка: Розмiр {Size}, Цiна {Price}, Колiр {Color}");
+    public void DressWoman() => Console.WriteLine($"Жiноча футболка: Розмiр {Size}, Цiна {Price}, Колiр {Color}");
+}
+
+class Pants : Clothing, IMensWear, IWomensWear
+{
+    public Pants(Size size, double price, string color) : base(size, price, color) { }
+
+    public void DressMan() => Console.WriteLine($"Чоловiчi штани: Розмiр {Size}, Цiна {Price}, Колiр {Color}");
+    public void DressWoman() => Console.WriteLine($"Жiночi штани: Розмiр {Size}, Цiна {Price}, Колiр {Color}");
+}
+
+class Skirt : Clothing, IWomensWear
+{
+    public Skirt(Size size, double price, string color) : base(size, price, color) { }
+
+    public void DressWoman() => Console.WriteLine($"Спiдниця: Розмiр {Size}, Цiна {Price}, Колiр {Color}");
+}
+
+class Tie : Clothing, IMensWear
+{
+    public Tie(Size size, double price, string color) : base(size, price, color) { }
+
+    public void DressMan() => Console.WriteLine($"Краватка: Розмiр {Size}, Цiна {Price}, Колiр {Color}");
+}
+
+class Atelier
+{
+    public static void DressWoman(Clothing[] clothes)
+    {
+        foreach (var item in clothes)
+        {
+            if (item is IWomensWear womenWear)
+                womenWear.DressWoman();
+        }
+    }
+
+    public static void DressMan(Clothing[] clothes)
+    {
+        foreach (var item in clothes)
+        {
+            if (item is IMensWear menWear)
+                menWear.DressMan();
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Clothing[] clothes =
+        {
+            new TShirt(Size.M, 500, "Червоний"),
+            new Pants(Size.L, 700, "Чорний"),
+            new Skirt(Size.S, 400, "Синiй"),
+            new Tie(Size.XS, 300, "Зелений")
+        };
+
+        Console.WriteLine("Одягаємо жiнку:");
+        Atelier.DressWoman(clothes);
+
+        Console.WriteLine("\nОдягаємо чоловiка:");
+        Atelier.DressMan(clothes);
+    }
+}
