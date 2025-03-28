@@ -4,7 +4,7 @@ interface IShape
 {
     void PrintShapeType();
     void PrintArea();
-    double Dimension { get; set; }
+    double a { get; set; }
 }
 
 interface IColoredShape : IShape
@@ -15,11 +15,11 @@ interface IColoredShape : IShape
 
 class Circle : IShape
 {
-    public double Dimension { get; set; }
+    public double a { get; set; }
 
     public Circle(double radius)
     {
-        Dimension = radius;
+        a = radius;
     }
 
     public void PrintShapeType()
@@ -29,19 +29,19 @@ class Circle : IShape
 
     public void PrintArea()
     {
-        double area = Math.PI * Math.Pow(Dimension, 2);
+        double area = Math.PI * Math.Pow(a, 2);
         Console.WriteLine($"Площа: {area:F2}");
     }
 }
 
 class ColoredCircle : IColoredShape
 {
-    public double Dimension { get; set; }
+    public double a { get; set; }
     public string Color { get; set; }
 
     public ColoredCircle(double radius, string color)
     {
-        Dimension = radius;
+        a = radius;
         Color = color;
     }
 
@@ -52,7 +52,7 @@ class ColoredCircle : IColoredShape
 
     public void PrintArea()
     {
-        double area = Math.PI * Math.Pow(Dimension, 2);
+        double area = Math.PI * Math.Pow(a, 2);
         Console.WriteLine($"Площа: {area:F2}");
     }
 
@@ -64,7 +64,7 @@ class ColoredCircle : IColoredShape
 
 class Program
 {
-    static void ExecuteMethods(IShape shape)
+    static void c (IShape shape)
     {
         shape.PrintShapeType();
         shape.PrintArea();
@@ -89,7 +89,7 @@ class Program
 
         foreach (var shape in shapes)
         {
-            ExecuteMethods(shape);
+            c(shape);
             Console.WriteLine();
         }
     }
