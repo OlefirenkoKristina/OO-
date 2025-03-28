@@ -1,0 +1,96 @@
+using System;
+
+interface IShape
+{
+    void PrintShapeType();
+    void PrintArea();
+    double Dimension { get; set; }
+}
+
+interface IColoredShape : IShape
+{
+    string Color { get; set; }
+    void PrintColor();
+}
+
+class Circle : IShape
+{
+    public double Dimension { get; set; }
+
+    public Circle(double radius)
+    {
+        Dimension = radius;
+    }
+
+    public void PrintShapeType()
+    {
+        Console.WriteLine("Тип фiгури: Коло");
+    }
+
+    public void PrintArea()
+    {
+        double area = Math.PI * Math.Pow(Dimension, 2);
+        Console.WriteLine($"Площа: {area:F2}");
+    }
+}
+
+class ColoredCircle : IColoredShape
+{
+    public double Dimension { get; set; }
+    public string Color { get; set; }
+
+    public ColoredCircle(double radius, string color)
+    {
+        Dimension = radius;
+        Color = color;
+    }
+
+    public void PrintShapeType()
+    {
+        Console.WriteLine("Тип фiгури: Кольорове коло");
+    }
+
+    public void PrintArea()
+    {
+        double area = Math.PI * Math.Pow(Dimension, 2);
+        Console.WriteLine($"Площа: {area:F2}");
+    }
+
+    public void PrintColor()
+    {
+        Console.WriteLine($"Колiр: {Color}");
+    }
+}
+
+class Program
+{
+    static void ExecuteMethods(IShape shape)
+    {
+        shape.PrintShapeType();
+        shape.PrintArea();
+
+        if (shape is IColoredShape coloredShape)
+        {
+            coloredShape.PrintColor();
+        }
+    }
+
+    static void Main()
+    {
+        IShape[] shapes =
+        {
+            new Circle(5),
+            new Circle(7),
+            new Circle(3),
+            new ColoredCircle(4, "Червоний"),
+            new ColoredCircle(6, "Блакитний"),
+            new ColoredCircle(8, "Зелений")
+        };
+
+        foreach (var shape in shapes)
+        {
+            ExecuteMethods(shape);
+            Console.WriteLine();
+        }
+    }
+}
