@@ -1,0 +1,108 @@
+using System;
+class NazvaException : Exception
+{
+    public NazvaException(string message) : base(message) { }
+}
+class KilkistSekundException : Exception
+{
+    public KilkistSekundException(string message) : base(message) { }
+}
+abstract class Tariff
+{
+    private string name;
+    public string Name
+    {
+        get => name;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new NazvaException("Назва тарифу не може бути порожньою або нуль!");
+            name = value;
+        }
+    }
+    public int SubscriberCount { get; set; }
+    public abstract double CalculateCallCost(int seconds);
+}
+class PerSecondTariff : Tariff
+{
+    public double CostPerSecond { get; set; }
+
+    public override double CalculateCallCost(int seconds)
+    {
+        try
+        {
+            if (seconds < 0)
+                throw new KilkistSekundException("Кiлькiсть секунд не може бути вiд'ємною!");
+
+            return seconds * CostPerSecond;
+        }
+        catch (KilkistSekundException ex)
+        {
+            Console.WriteLine("Помилка: " + ex.Message);
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Невiдома помилка: " + ex.Message);
+            return 0;
+        }
+    }
+}
+class PerMinuteTariff : Tariff
+{
+    public double CostPerMinute { get; set; }
+
+    public override double CalculateCallCost(int seconds)
+    {
+        try
+        {
+            if (seconds < 0)
+                throw new KilkistSekundException("Кiлькiсть секунд не може бути вiд'ємною!");
+
+            return Math.Ceiling(seconds / 60.0) * CostPerMinute;
+        }
+        catch (KilkistSekundException ex)
+        {
+            Console.WriteLine("Помилка: " + ex.Message);
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Невiдома помилка: " + ex.Message);
+            return 0;
+        }
+    }
+}
+class Subscriber
+{
+    public string FullName { get; set; }
+    public string PhoneNumber { get; set; }
+    public double Balance { get; set; }
+}
+class MobileCompany
+{
+    public string Name { get; set; }
+}
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            PerSecondTariff perSecondTariff = new PerSecondTariff { Name = "", CostPerSecond = 0.05 };
+        }
+        catch (NazvaException ex)
+        {
+            Console.WriteLine("Неможливо створити тариф – не вказано назву");
+        }
+
+        PerMinuteTariff perMinuteTariff = new PerMinuteTariff { Name = "Похвилинний", CostPerMinute = 2.00 };
+
+        Console.WriteLine("Тестування тарифiв:");
+        Console.WriteLine("Вартiсть розмови (60 секунд) за похвилинним тарифом: " + perMinuteTariff.CalculateCallCost(60));
+
+        Console.WriteLine("Тест з вiд'ємною кiлькiстю секунд:");
+        Console.WriteLine("Вартiсть розмови (-30 секунд) за похвилинним тарифом: " + perMinuteTariff.CalculateCallCost(-30));
+    }
+}
