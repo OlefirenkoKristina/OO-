@@ -1,0 +1,38 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Введiть значення ε (epsilon > 0): ");
+        if (!double.TryParse(Console.ReadLine(), out double epsilon) || epsilon <= 0)
+        {
+            Console.WriteLine("Невiрне значення ε. Спробуйте ще раз.");
+            return;
+        }
+
+        string filePath = "Завдання 2.txt"; 
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            int i = 1;
+            while (true)
+            {
+                double numerator = i - 0.1;
+                double denominator = Math.Pow(i, 3) + Math.Abs(Math.Tan(2 * i));
+                double xi = numerator / denominator;
+
+                writer.WriteLine($"x_{i} = {xi}");
+
+                if (Math.Abs(xi) < epsilon)
+                {
+                    break; 
+                }
+
+                i++;
+            }
+        }
+
+        Console.WriteLine($"Результати записано у файл {filePath}");
+    }
+}
