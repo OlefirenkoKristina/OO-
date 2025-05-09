@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
+
+namespace OrderSerialization
+{
+    public class OrderItem
+    {
+        public string ProductName { get; set; }
+        public int Quantity { get; set; }
+
+        public OrderItem() { }
+
+        public OrderItem(string productName, int quantity)
+        {
+            ProductName = productName;
+            Quantity = quantity;
+        }
+    }
+
+    public class Order
+    {
+        public int OrderId { get; set; }
+        public DateTime OrderDate { get; set; }
+
+        public List<OrderItem> Items { get; set; }
+
+        public Order()
+        {
+            Items = new List<OrderItem>();
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Order order = new Order
+            {
+                OrderId = 123,
+                OrderDate = DateTime.Now,
+                Items = new List<OrderItem>
+                {
+                    new OrderItem("Ноутбук", 1),
+                    new OrderItem("Мишка", 2),
+                    new OrderItem("Клавіатура", 1)
+                }
+            };
+
+
+            XmlSerializer serializer = new XmlSerializer(typeof(Order));
+            using (FileStream fs = new FileStream("order.xml", FileMode.Create))
+            {
+                serializer.Serialize(fs, order);
+            }
+
+            Console.WriteLine("Замовлення успiшно серiалiзовано у файл 'order.xml'.");
+        }
+    }
+}
