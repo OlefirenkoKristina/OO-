@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace CharSetExample
+{
+    public class CharSet
+    {
+        private HashSet<char> elements;
+        public CharSet()
+        {
+            elements = new HashSet<char>();
+        }
+        public CharSet(IEnumerable<char> chars)
+        {
+            elements = new HashSet<char>(chars);
+        }
+        public void Add(char c)
+        {
+            elements.Add(c);
+        }
+        public static CharSet operator +(CharSet a, CharSet b)
+        {
+            return new CharSet(a.elements.Union(b.elements));
+        }
+        public static bool operator <=(CharSet a, CharSet b)
+        {
+            return a.elements.All(c => b.elements.Contains(c));
+        }
+
+        public static bool operator >=(CharSet a, CharSet b)
+        {
+            return b <= a;
+        }
+        public override string ToString()
+        {
+            return "{" + string.Join(", ", elements) + "}";
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            CharSet A = new CharSet(new[] { 'a', 'b', 'c' });
+            CharSet B = new CharSet(new[] { 'b', 'c' });
+            CharSet C = new CharSet(new[] { 'd', 'e' });
+
+            CharSet D = A + C;
+
+            Console.WriteLine("Множина A: " + A);
+            Console.WriteLine("Множина B: " + B);
+            Console.WriteLine("Множина C: " + C);
+            Console.WriteLine("Об’єднання A + C = " + D);
+
+            Console.WriteLine("B <= A: " + (B <= A)); 
+            Console.WriteLine("C <= A: " + (C <= A)); 
+        }
+    }
+}
