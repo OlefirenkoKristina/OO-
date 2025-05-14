@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class Student
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public double Grade { get; set; }
+    public string Group { get; set; }
+}
+
+public class Program4
+{
+    public static void Main()
+    {
+        List<Student> students = new List<Student>
+        {
+            new Student { Name = "Iван", Age = 20, Grade = 85.5, Group = "KN1-B23" },
+            new Student { Name = "Марiя", Age = 22, Grade = 92.3, Group = "KN1-B24" },
+            new Student { Name = "Олег", Age = 19, Grade = 75.0, Group = "KN1-B23" },
+            new Student { Name = "Наталя", Age = 21, Grade = 88.0, Group = "KN1-B22" },
+            new Student { Name = "Петро", Age = 20, Grade = 69.5, Group = "KN1-B24" },
+            new Student { Name = "Оксана", Age = 23, Grade = 95.0, Group = "KN1-B23" }
+
+        };
+
+        var sorted = students
+            .Where(s => s.Grade > 80)
+            .OrderBy(s => s.Group)
+            .ThenBy(s => s.Name)
+            .Select(s => $"{s.Group} - {s.Name}");
+
+        Console.WriteLine("Вiдсортованi студенти з балом > 80:");
+        foreach (var entry in sorted)
+            Console.WriteLine(entry);
+    }
+}
