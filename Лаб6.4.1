@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class Student
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public double Grade { get; set; }
+    public string Group { get; set; }
+}
+public class Program1
+{
+    public static void Main()
+    {
+        List<Student> students = GetStudents();
+
+        var topA1 = students
+            .Where(s => s.Group == "A1")
+            .OrderByDescending(s => s.Grade)
+            .Take(3)
+            .Select(s => s.Name);
+
+        Console.WriteLine("Топ-3 студенти групи A1:");
+        foreach (var name in topA1)
+            Console.WriteLine(name);
+    }
+
+    public static List<Student> GetStudents()
+    {
+        return new List<Student>
+        {
+            new Student { Name = "Iван", Age = 20, Grade = 85.5, Group = "A1" },
+            new Student { Name = "Марiя", Age = 22, Grade = 92.3, Group = "A2" },
+            new Student { Name = "Олег", Age = 19, Grade = 75.0, Group = "A1" },
+            new Student { Name = "Наталя", Age = 21, Grade = 88.0, Group = "A3" },
+            new Student { Name = "Петро", Age = 20, Grade = 69.5, Group = "A2" },
+            new Student { Name = "Оксана", Age = 23, Grade = 95.0, Group = "A1" }
+        };
+    }
+}
