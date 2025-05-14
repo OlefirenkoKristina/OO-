@@ -1,0 +1,42 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class CollectionType
+{
+    public string Name { get; set; }
+    public List<string> Items { get; set; }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        var collections = new Dictionary<int, CollectionType>
+        {
+            { 1, new CollectionType { Name = "Фрукти", Items = new List<string> { "яблуко", "банан", "груша" } } },
+            { 2, new CollectionType { Name = "Овочi", Items = new List<string> { "морква", "огірок", "капуста" } } },
+            { 3, new CollectionType { Name = "Смачне", Items = new List<string> { "банан", "шоколад", "торт", "груша" } } },
+            { 4, new CollectionType { Name = "Напої", Items = new List<string> { "вода", "сiк", "чай" } } }
+        };
+
+        string searchItem = "банан";
+
+        int count = collections.Count(c => c.Value.Items.Contains(searchItem));
+        Console.WriteLine($"Кiлькiсть колекцiй, що мiстять '{searchItem}': {count}");
+
+        var maxCollection = collections
+            .Where(c => c.Value.Items.Contains(searchItem))
+            .OrderByDescending(c => c.Value.Items.Count)
+            .FirstOrDefault();
+
+        if (maxCollection.Value != null)
+        {
+            Console.WriteLine($"Максимальна колекцiя, що мiстить '{searchItem}': {maxCollection.Value.Name} ({maxCollection.Value.Items.Count} елементiв)");
+        }
+        else
+        {
+            Console.WriteLine($"Немає колекцiй, що мiстять '{searchItem}'");
+        }
+    }
+}
