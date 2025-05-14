@@ -1,0 +1,63 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+namespace Arrange
+{
+    public class Number : IComparable<Number>
+    {
+        public int Value { get; set; }
+        public int CompareTo(Number other)
+        {
+            return Value.CompareTo(other.Value);
+        }
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+    }
+    public class CollectionType<T> : IEnumerable<T> where T : IComparable<T>
+    {
+        private List<T> items = new List<T>();
+        public void Add(T item) => items.Add(item);
+        public int Count => items.Count;
+        public void Sort() => items.Sort();
+        public IEnumerator<T> GetEnumerator() => items.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public override string ToString() => string.Join(", ", items);
+    }
+    class Program
+    {
+        static void Main()
+        {
+            var col1 = new CollectionType<Number>();
+            col1.Add(new Number { Value = 4 });
+            col1.Add(new Number { Value = 7 });
+            var col2 = new CollectionType<Number>();
+            col2.Add(new Number { Value = -8 });
+            col2.Add(new Number { Value = 3 });
+            var col3 = new CollectionType<Number>();
+            col3.Add(new Number { Value = -5 });
+            col3.Add(new Number { Value = 2 });
+            var allCollections = new List<CollectionType<Number>> { col1, col2, col3 };
+            Console.WriteLine("Усi колекцiї:");
+            foreach (var col in allCollections)
+            {
+                Console.WriteLine(col);
+            }
+            var withNegatives = allCollections.Where(c => c.Any(n => n.Value < 0));
+            Console.WriteLine("\nКолекцiї з вiд’ємними елементами:");
+            foreach (var col in withNegatives)
+            {
+                Console.WriteLine(col);
+            }
+            var maxCollection = allCollections.OrderByDescending(c => c.Count).First();
+            Console.WriteLine("\nМаксимальна колекцiя (за кiлькiстю елементiв):");
+            Console.WriteLine(maxCollection);
+            var minNumber = allCollections.SelectMany(c => c).Min();
+            Console.WriteLine("\nМiнiмальне число серед усiх колекцiй:");
+            Console.WriteLine(minNumber);
+            Console.ReadKey();
+        }
+    }
+}
