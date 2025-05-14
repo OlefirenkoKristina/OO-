@@ -1,0 +1,46 @@
+using System;
+using System.Collections;
+
+public class Program
+{
+    public static void Main()
+    {
+        ArrayList strings = new ArrayList();
+
+        strings.Add("Київ");
+        strings.Add("Львiв");
+        strings.Add("Харкiв");
+        strings.Add("Днiпро");
+        strings.Add("Одеса");
+
+        Console.WriteLine("Вмiст колекцiї:");
+        foreach (string s in strings)
+            Console.WriteLine(s);
+
+        Console.WriteLine("\nРядки, що мiстять \"в\":");
+        foreach (string s in strings)
+        {
+            if (s.Contains("в"))
+                Console.WriteLine(s);
+        }
+
+        int count = 0;
+        foreach (string s in strings)
+        {
+            if (s.Length == 5)
+                count++;
+        }
+        Console.WriteLine($"\nКiлькiсть рядкiв довжини 5: {count}");
+
+        strings.Sort();
+        Console.WriteLine("\nСортування за зростанням:");
+        foreach (string s in strings)
+            Console.WriteLine(s);
+
+        strings.Sort();
+        strings.Reverse();
+        Console.WriteLine("\nСортування за спаданням:");
+        foreach (string s in strings)
+            Console.WriteLine(s);
+    }
+}
