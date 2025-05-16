@@ -1,0 +1,39 @@
+using System;
+using System.Linq;
+using System.Xml.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        XDocument doc = new XDocument(
+            new XElement("Products",
+                new XElement("Product", new XAttribute("name", "Laptop"), new XAttribute("price", 1200)),
+                new XElement("Product", new XAttribute("name", "Smartphone"), new XAttribute("price", 800)),
+                new XElement("Product", new XAttribute("name", "Mouse"), new XAttribute("price", 25))
+            )
+        );
+
+        string filePath = "products.xml";
+        doc.Save(filePath);
+
+        XDocument loadedDoc = XDocument.Load(filePath);
+
+        decimal threshold = 100;
+
+        var expensiveProducts = loadedDoc.Descendants("Product")
+            .Where(p => decimal.Parse(p.Attribute("price").Value) > threshold)
+            .Select(p => new
+            {
+                Name = p.Attribute("name").Value,
+                Price = decimal.Parse(p.Attribute("price").Value)
+            });
+
+        Console.WriteLine($"Товари з цiною бiльше {threshold}:\n");
+
+        foreach (var product in expensiveProducts)
+        {
+            Console.WriteLine($"Назва: {product.Name}, Цiна: {product.Price}");
+        }
+    }
+}
