@@ -1,0 +1,56 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+class Singleton
+{
+    private static Singleton _instance;
+    private static readonly object _lock = new object();
+
+    public string CreatedAt { get; }
+
+    private Singleton()
+    {
+        CreatedAt = DateTime.Now.ToString("HH:mm:ss.fff");
+        Console.WriteLine("Singleton створено о " + CreatedAt);
+    }
+
+    public static Singleton Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                lock (_lock)
+                {
+                    if (_instance == null)
+                        _instance = new Singleton();
+                }
+            }
+            return _instance;
+        }
+    }
+
+    public void Show(string fromThread)
+    {
+        Console.WriteLine($"[{fromThread}] Використано Singleton створений о: {CreatedAt}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Запуск декiлькох потокiв для перевiрки Singleton...\n");
+
+        Parallel.For(0, 5, i =>
+        {
+            string threadName = $"Потiк {i + 1}";
+            Singleton singleton = Singleton.Instance;
+            singleton.Show(threadName);
+        });
+
+        Console.WriteLine("\nНатиснiть Enter для виходу...");
+        Console.ReadLine();
+    }
+}
