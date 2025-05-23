@@ -59,20 +59,20 @@ class Program
     {
         ChatRoom chat = new ChatRoom();
 
-        User alice = new User("Марина");
-        User bob = new User("Володимир");
-        User iryna = new User("Оксана");
+        User maryna = new User("Марина");
+        User volodymyr = new User("Володимир");
+        User oksana = new User("Оксана");
 
-        chat.Register(alice);
-        chat.Register(bob);
-        chat.Register(iryna);
+        chat.Register(maryna);
+        chat.Register(volodymyr);
+        chat.Register(oksana);
 
-        alice.Send(chat, "Привiт усiм!");
-        bob.Send(chat, "Привiт, Марина!");
-        iryna.Send(chat, "Вiтаю вас!");
+        maryna.Send(chat, "Привiт усiм!");
+        volodymyr.Send(chat, "Привiт, Марина!");
+        oksana.Send(chat, "Вiтаю вас!");
 
-        chat.Unregister(bob);
+        chat.Unregister(volodymyr);
 
-        alice.Send(chat, "Володимир вийшов з чату.");
+        maryna.Send(chat, "Володимир вийшов з чату.");
     }
 }
