@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+
+interface ISubscriber
+{
+    void ReceiveMessage(string fromUser, string message);
+}
+
+class ChatRoom
+{
+    private List<ISubscriber> users = new List<ISubscriber>();
+
+    public void Register(ISubscriber user)
+    {
+        users.Add(user);
+    }
+
+    public void Unregister(ISubscriber user)
+    {
+        users.Remove(user);
+    }
+
+    public void SendMessage(string fromUser, string message)
+    {
+        foreach (ISubscriber user in users)
+        {
+            user.ReceiveMessage(fromUser, message);
+        }
+    }
+}
+
+class User : ISubscriber
+{
+    public string Name { get; }
+
+    public User(string name)
+    {
+        Name = name;
+    }
+
+    public void ReceiveMessage(string fromUser, string message)
+    {
+        if (fromUser != Name)
+        {
+            Console.WriteLine($"{Name} отримав повiдомлення вiд {fromUser}: {message}");
+        }
+    }
+
+    public void Send(ChatRoom chat, string message)
+    {
+        Console.WriteLine($"{Name} надсилає: {message}");
+        chat.SendMessage(Name, message);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        ChatRoom chat = new ChatRoom();
+
+        User alice = new User("Марина");
+        User bob = new User("Володимир");
+        User iryna = new User("Оксана");
+
+        chat.Register(alice);
+        chat.Register(bob);
+        chat.Register(iryna);
+
+        alice.Send(chat, "Привiт усiм!");
+        bob.Send(chat, "Привiт, Марина!");
+        iryna.Send(chat, "Вiтаю вас!");
+
+        chat.Unregister(bob);
+
+        alice.Send(chat, "Володимир вийшов з чату.");
+    }
+}
